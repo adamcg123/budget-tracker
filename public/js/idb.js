@@ -35,7 +35,7 @@ function uploadTransaction() {
     getAll.onsuccess = function () {
         if (getAll.result.length > 0) {
             fetch('/api/transaction', {
-                method: 'post',
+                method: 'POST',
                 body: JSON.stringify(getAll.result),
                 headers: {
                     Accept: 'application/json, text/plain, */*',
@@ -55,7 +55,8 @@ function uploadTransaction() {
                     budgetObjectStore.clear();
 
                     alert('All offline saved transactions has been submitted!');
-                }).catch(err => {
+                })
+                .catch(err => {
                     console.log(err);
                 });
         }
