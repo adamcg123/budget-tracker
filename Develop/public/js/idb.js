@@ -11,7 +11,7 @@ request.onupgradeneeded = function (event) {
 request.onsuccess = function (event) {
     db = event.target.result;
     if (navigator.onLine) {
-        // i need to uploadtransaction
+        // i think i need to uploadtransaction
     }
 }
 
@@ -29,36 +29,35 @@ function saveRecord(record) {
 function uploadtransaction() {
     const transaction = db.transaction(["new_transaction"], "readwrite")
     const budgetObjectStore = transaction.objectStore("new_transaction")
+    const getAll = budgetObjectStore.getAll();
 
-    const getAll = function () {
-        getAll.onsuccess = function () {
-            if (getAll.result.length > 0) {
-                fetch("/api/transaction", {
-                    method: "post",
-                    body: JSON.stringify(getAll.result),
-                    headers: {
-                        Accept: "application/json, text/plain, */*",
-                        'Content-Type': 'application/json'
+
+    getAll.onsuccess = function () {
+        if (getAll.result.length > 0) {
+            fetch("/api/transaction", {
+                method: "post",
+                body: JSON.stringify(getAll.result),
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    'Content-Type': 'application/json'
+                }
+            })
+
+                .then(response => response.json())
+                .then(serverResponse => {
+                    if (serverResponse.message) {
+                        throw new Error(serverResponse);
                     }
-                })
+                    const transaction = db.transaction(['new_transaction'], 'readwrite');
 
-                    .then(response => response.json())
-                    .then(serverResponse => {
-                        if (serverResponse.message) {
-                            throw new Error(serverResponse);
-                        }
-                        const transaction = db.transaction(['new_transaction'], 'readwrite');
+                    const budgetObjectStore = transaction.objectStore('new_transaction')
 
-                        const budgetObjectStore = transaction.objectStore('new_transaction')
+                    budgetObjectStore.clear();
 
-                        budgetObjectStore.clear();
-
-                        alert('All saved transactions has been submitted!');
-                    }).catch(err => {
-                        console.log(err);
-                    });
-
-            }
+                    alert('All saved transactions has been submitted!');
+                }).catch(err => {
+                    console.log(err);
+                });
         }
     }
 }
