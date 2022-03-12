@@ -2,7 +2,7 @@
 
 ## License
 
-[![license](https://img.shields.io/badge/license-none)](https://shields.io)
+None
 
 ## Description
 
