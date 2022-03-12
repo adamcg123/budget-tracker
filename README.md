@@ -19,6 +19,8 @@ this is a pwa that allows users to track their expenses and budget without a con
 ## Installation
 
 to run this app locally you clone it then open your terminal and first you npm init then npm i and you should be all set for npm start after that go to localhost in your browser
+or
+you can go to the deployed link here: https://adams-budget-tracker.herokuapp.com/
 
 ## Usage
 
